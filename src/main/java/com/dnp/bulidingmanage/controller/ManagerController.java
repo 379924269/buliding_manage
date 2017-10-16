@@ -6,6 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dnp.bulidingmanage.model.Manager;
 import com.dnp.bulidingmanage.service.ManagerService;
 import com.dnp.bulidingmanage.common.page.PageVo;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -82,6 +85,19 @@ public class ManagerController {
     @ApiOperation(value = "删除管理员表", notes = "修改管理员表")
     public void delete(@ApiParam(name = "id", value = "管理员表id", required = true) @PathVariable("id") Integer id) {
         managerService.deleteById(id);
+    }
+
+    @RequestMapping(value = "/notLogin")
+    @ApiOperation(value = "没有登陆", notes = "没有登陆", hidden = true)
+    public Object notLogin() {
+        return new JSONObject().put("msg", "请登录").toString();
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiOperation(value = "登陆", notes = "登陆")
+    public Object login(HttpServletRequest request) {
+        request.getSession().setAttribute("userId", "1");
+        return new JSONObject().put("msg", "登陆成功").toString();
     }
 
 }

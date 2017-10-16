@@ -2,10 +2,12 @@ package
 
         com.dnp.bulidingmanage.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import org.apache.ibatis.javassist.util.HotSwapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dnp.bulidingmanage.model.Building;
 import com.dnp.bulidingmanage.service.BuildingService;
 import com.dnp.bulidingmanage.common.page.PageVo;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -37,7 +41,7 @@ public class BuildingController {
     @ApiOperation(value = "查询所有", notes = "查询所有")
     public Object findAll(PageVo pageVo,
                           @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
-        return null;
+        return buildingService.selectMaps(new EntityWrapper<Building>());
     }
 
 
@@ -56,9 +60,9 @@ public class BuildingController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     @ApiOperation(value = "添加", notes = "添加")
     public void save(
-
             @ApiParam(name = "name", value = "大楼名称")
-            @RequestParam(required = false, name = "name") String name
+            @RequestParam(required = false, name = "name")
+            @NotNull(message = "名称不能为空") String name
             ,
             @ApiParam(name = "number", value = "大楼编号")
             @RequestParam(required = false, name = "number") String number
