@@ -30,7 +30,7 @@
     </contextName>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d {ptt} %p [%c] - %m%n</pattern>
+            <pattern>%d {buliding} %p [%c] - %m%n</pattern>
         </encoder>
     </appender>
     <appender name="bulidingManage"
@@ -40,10 +40,10 @@
             <FileNamePattern>logs/logback/bulidingManage_%d{yyyy-M-d}.log
             </FileNamePattern>
             <!-- 保留天数 -->
-            <MaxHistory>10</MaxHistory>
+            <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d {ptt} %p [%c] - %m%n</pattern>
+            <pattern>%d {buliding} %p [%c] - %m%n</pattern>
         </encoder>
     </appender>
     <appender name="smile"
@@ -55,7 +55,7 @@
             <MaxHistory>10</MaxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d {ptt} %p [%c] - %m%n</pattern>
+            <pattern>%d {buliding} %p [%c] - %m%n</pattern>
         </encoder>
     </appender>
 
@@ -64,7 +64,7 @@
             additivity="false">
         <appender-ref ref="bulidingManage"/>
     </logger>
-    <logger name="druid.sql.Statement" level="debug" additivity="false">
+    <logger name="druid.sql.Statement" level="error" additivity="false">
         <appender-ref ref="smile"/>
     </logger>
     <!-- name包必须能够扫描到所以类，包括启动类 -->

@@ -2,12 +2,16 @@ package
 
         com.dnp.bulidingmanage.controller;
 
+import ch.qos.logback.classic.util.LoggerNameUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.dnp.bulidingmanage.common.LogUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 import org.apache.ibatis.javassist.util.HotSwapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +45,7 @@ public class BuildingController {
     @ApiOperation(value = "查询所有", notes = "查询所有")
     public Object findAll(PageVo pageVo,
                           @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
+        LogUtil.info(this, "==========findAll=============");
         return buildingService.selectMaps(new EntityWrapper<Building>());
     }
 
@@ -80,6 +85,7 @@ public class BuildingController {
     @ApiOperation(value = "删除", notes = "修改")
     public void delete(@ApiParam(name = "id", value = "id", required = true) @PathVariable("id") Integer id) {
         buildingService.deleteById(id);
+        
     }
 
 }
