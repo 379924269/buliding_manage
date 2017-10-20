@@ -17,7 +17,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截规则：除了login，其他都拦截判断
-        String excludePathPatterns[] = {"/manager/login", "/manager/notLogin", "/swagger-resources/**"};
+        String excludePathPatterns[] = {"/manager/login", "/manager/notLogin", "/swagger-resources/**", "/"};
         registry.addInterceptor(new MyInterceptor()).addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
     }
 

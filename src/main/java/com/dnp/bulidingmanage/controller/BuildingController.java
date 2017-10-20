@@ -1,30 +1,17 @@
-package
+package com.dnp.bulidingmanage.controller;
 
-        com.dnp.bulidingmanage.controller;
-
-import ch.qos.logback.classic.util.LoggerNameUtil;
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dnp.bulidingmanage.common.LogUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-
-import org.apache.ibatis.javassist.util.HotSwapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.dnp.bulidingmanage.common.page.PageVo;
+import com.dnp.bulidingmanage.common.swagger.ResponsePageResult.BuilidingPageResult;
+import com.dnp.bulidingmanage.common.swagger.ResponsePageResult.BuilidingRelationPageResult;
 import com.dnp.bulidingmanage.model.Building;
 import com.dnp.bulidingmanage.service.BuildingService;
-import com.dnp.bulidingmanage.common.page.PageVo;
+import com.dnp.bulidingmanage.vo.ResponseJsonVo;
+import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -34,19 +21,26 @@ import javax.validation.constraints.NotNull;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "BuildingController", description = "")
+@Api(value = "BuildingController", description = "大楼信息")
 @RestController
 @RequestMapping(value = "/building", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@ApiResponses(value = { @ApiResponse(code = 1000, message = "没有登陆", response = ResponseJsonVo.class) })
 public class BuildingController {
     @Autowired
     private BuildingService buildingService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    @ApiOperation(value = "查询所有", notes = "查询所有")
-    public Object findAll(PageVo pageVo,
+    @ApiOperation(value = "查询所有", notes = "查询所有", response = BuilidingPageResult.class)
+    public Object findAll(PageVo pageVo, @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
+        return buildingService.findAll(pageVo, search);
+    }
+
+    @RequestMapping(value = "/findAllRelation", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有关联信息", notes = "查询所有关联信息", response = BuilidingRelationPageResult.class)
+    public Object findAllRelation(PageVo pageVo,
                           @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
         LogUtil.info(this, "==========findAll=============");
-        return buildingService.selectMaps(new EntityWrapper<Building>());
+        return buildingService.findAllRelation(pageVo, search);
     }
 
 
@@ -66,18 +60,12 @@ public class BuildingController {
     @ApiOperation(value = "添加", notes = "添加")
     public void save(
             @ApiParam(name = "name", value = "大楼名称")
-            @RequestParam(required = false, name = "name")
-            @NotNull(message = "名称不能为空") String name
-            ,
+            @RequestParam(required = false, name = "name") String name,
             @ApiParam(name = "number", value = "大楼编号")
-            @RequestParam(required = false, name = "number") String number
-            ,
+            @RequestParam(required = false, name = "number") String number,
             @ApiParam(name = "policyId", value = "开关功能id")
-            @RequestParam(required = false, name = "policyId") Integer policyId
-    ) {
-        Building building = new Building(
-
-                name, number, policyId);
+            @RequestParam(required = false, name = "policyId") Integer policyId) {
+        Building building = new Building(name, number, policyId);
         buildingService.insertAllColumn(building);
     }
 

@@ -26,7 +26,7 @@
 -->
 <configuration scan="true" scanPeriod="60 seconds">
     <contextName>
-        huazai_springboot
+        buliding_manage
     </contextName>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
