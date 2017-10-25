@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * 注册拦截器
+ *
  * @Author 华仔
  * @Author 2017/10/16 10:02
  */

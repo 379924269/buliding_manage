@@ -1,5 +1,5 @@
 <configuration scan="true" scanPeriod="10 seconds" debug="true">
-    <property resource="logback.properties" />
+    <property resource="logback.properties"/>
 
     <contextName>${context.name}</contextName>                         <!-- 本项目的名字 -->
 
@@ -91,7 +91,7 @@
         </filter>
     </appender>
     <root level="${root.level}">
-        <appender-ref ref="console" />
+        <appender-ref ref="console"/>
         <appender-ref ref="root-file-error"/>
         <appender-ref ref="root-file-warn"/>
         <appender-ref ref="root-file-info"/>

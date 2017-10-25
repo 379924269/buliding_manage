@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 public class MyInterceptor extends HandlerInterceptorAdapter {
     Logger logger = LoggerFactory.getLogger(MyInterceptor.class);
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dnp.bulidingmanage.dao.BuildingMapper">
 
-<!-- 通用查询映射结果 -->
-<resultMap id="BaseResultMap" type="com.dnp.bulidingmanage.model.Building">
-    <id column="id" property="id"/>
-    <result column="name" property="name"/>
-    <result column="number" property="number"/>
-    <result column="policy_id" property="policyId"/>
-</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dnp.bulidingmanage.model.Building">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="number" property="number"/>
+        <result column="policy_id" property="policyId"/>
+    </resultMap>
 
 
-<select id="selectAllRelation" resultType="com.dnp.bulidingmanage.vo.BulidingRelationVo">
+    <select id="selectAllRelation" resultType="com.dnp.bulidingmanage.vo.BulidingRelationVo">
     SELECT b.id, b.name, b.number, b.policy_id, p.name as policyName, p.content as policyContent FROM building b LEFT JOIN policy p ON b.policy_id = p.id
 </select>
-<select id="countAllRelation" resultType="java.lang.Integer">
-    SELECT count(b.id) FROM building b LEFT JOIN policy p ON b.policy_id = p.id
-</select>
+    <select id="countAllRelation" resultType="java.lang.Integer">
+        SELECT count(b.id) FROM building b LEFT JOIN policy p ON b.policy_id = p.id
+    </select>
 </mapper>

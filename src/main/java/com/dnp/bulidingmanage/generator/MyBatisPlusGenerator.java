@@ -30,7 +30,8 @@ public class MyBatisPlusGenerator {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         gc.setOutputDir("E:\\ideaGitProject\\buliding_manage\\src\\main\\java");//这里写你自己的java目录
-        gc.setFileOverride(true);//是否覆盖
+        //gc.setOutputDir("E:\\003"); //如果已经写了很多代码的表改了，可以手动修改，如果不想手动修改就自动生成然后手动替换
+        gc.setFileOverride(false);//是否覆盖，是否覆盖已经写好代码
         gc.setActiveRecord(true);
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
@@ -66,7 +67,7 @@ public class MyBatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         //strategy.setTablePrefix(new String[]{"_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-//        strategy.setInclude(new String[]{"application"}); // 需要生成的表
+        strategy.setInclude(new String[]{"manager"}); // 需要生成的表
         mpg.setStrategy(strategy);
 
         // 包配置

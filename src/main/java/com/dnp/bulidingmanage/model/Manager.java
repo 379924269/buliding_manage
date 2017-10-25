@@ -1,6 +1,8 @@
 package com.dnp.bulidingmanage.model;
 
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.activerecord.Model;
 
 import java.io.Serializable;
@@ -22,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * </p>
  *
  * @author stylefeng
- * @since 2017-10-11
+ * @since 2017-10-25
  */
 @XmlRootElement(name = "manager")
 @XmlAccessorType(XmlAccessType.NONE)
@@ -34,6 +36,7 @@ public class Manager extends Model<Manager> {
     /**
      * 代理id
      */
+    @TableId(value = "id", type = IdType.AUTO)
 
     @XmlAttribute
     @ApiModelProperty(value = "代理id", dataType = "Integer")
@@ -75,6 +78,28 @@ public class Manager extends Model<Manager> {
     @XmlAttribute
     @ApiModelProperty(value = "删除，1：允许，0：不允许", dataType = "Integer")
     private Integer allowDeleted;
+    /**
+     * md5密码盐
+     */
+
+    @XmlAttribute
+    @ApiModelProperty(value = "md5密码盐", dataType = "String")
+    private String salt;
+    /**
+     * 部门id
+     */
+    @TableField("dept_id")
+
+    @XmlAttribute
+    @ApiModelProperty(value = "部门id", dataType = "Integer")
+    private Integer deptId;
+    /**
+     * 状态，1：启用，2：冻结，3：删除
+     */
+
+    @XmlAttribute
+    @ApiModelProperty(value = "状态，1：启用，2：冻结，3：删除", dataType = "Integer")
+    private Integer status;
 
 
     public Manager() {
@@ -91,12 +116,21 @@ public class Manager extends Model<Manager> {
             Long createdDate
             ,
             Integer allowDeleted
+            ,
+            String salt
+            ,
+            Integer deptId
+            ,
+            Integer status
     ) {
         this.name = name;
         this.account = account;
         this.password = password;
         this.createdDate = createdDate;
         this.allowDeleted = allowDeleted;
+        this.salt = salt;
+        this.deptId = deptId;
+        this.status = status;
     }
 
 
@@ -148,6 +182,30 @@ public class Manager extends Model<Manager> {
         this.allowDeleted = allowDeleted;
     }
 
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -162,6 +220,9 @@ public class Manager extends Model<Manager> {
                 ", password=" + password +
                 ", createdDate=" + createdDate +
                 ", allowDeleted=" + allowDeleted +
+                ", salt=" + salt +
+                ", deptId=" + deptId +
+                ", status=" + status +
                 "}";
     }
 }

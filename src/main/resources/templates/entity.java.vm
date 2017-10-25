@@ -33,23 +33,23 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 #end
 #if(${table.convert})
-@TableName("${table.name}" )
+@TableName("${table.name}")
 #end
 #if(${superEntityClass})
 
-@XmlRootElement(name = "${table.entityPath}" )
+@XmlRootElement(name = "${table.entityPath}")
 @XmlAccessorType(XmlAccessType.NONE)
-@ApiModel(value = "${table.entityPath}" , description = "${table.comment}" )
+@ApiModel(value = "${table.entityPath}", description = "${table.comment}")
 public class ${entity} extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
 #elseif(${activeRecord})
-@XmlRootElement(name = "${table.entityPath}" )
+@XmlRootElement(name = "${table.entityPath}")
 @XmlAccessorType(XmlAccessType.NONE)
-@ApiModel(value = "${table.entityPath}" , description = "${table.comment}" )
+@ApiModel(value = "${table.entityPath}", description = "${table.comment}")
 public class ${entity} extends Model<${entity}> {
 #else
-@XmlRootElement(name = "${table.entityPath}" )
+@XmlRootElement(name = "${table.entityPath}")
 @XmlAccessorType(XmlAccessType.NONE)
-@ApiModel(value = "${table.entityPath}" , description = "${table.comment}" )
+@ApiModel(value = "${table.entityPath}", description = "${table.comment}")
 public class ${entity} implements Serializable{
 #end
 
@@ -66,25 +66,25 @@ private static final long serialVersionUID=1L;
     #end
     #if(${field.keyFlag})
         #if(${field.keyIdentityFlag})
-        @TableId(value = "${field.name}" , type = IdType.AUTO)
+        @TableId(value = "${field.name}", type = IdType.AUTO)
         #elseif(${field.convert})
-        @TableId("${field.name}" )
+        @TableId("${field.name}")
         #end
     #elseif(${field.fill})
         #if(${field.convert})
-        @TableField(value = "${field.name}" , fill = FieldFill.${field.fill})
+        @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
         #else
         @TableField(fill = FieldFill.${field.fill})
         #end
     #elseif(${field.convert})
-    @TableField("${field.name}" )
+    @TableField("${field.name}")
     #end
     #if(${logicDeleteFieldName}==${field.name})
     @TableLogic
     #end
 
 @XmlAttribute
-@ApiModelProperty(value = "${field.comment}" , dataType = "${field.propertyType}")
+@ApiModelProperty(value = "${field.comment}", dataType = "${field.propertyType}")
 private ${field.propertyType} ${field.propertyName};
 #end
 

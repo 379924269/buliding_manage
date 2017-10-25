@@ -32,7 +32,7 @@ import java.io.IOException;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "ManagerController", description = "管理员表")
+@Api(value = "Manager", description = "管理员表")
 @RestController
 @RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class ManagerController {
@@ -76,10 +76,17 @@ public class ManagerController {
             ,
             @ApiParam(name = "allowDeleted", value = "删除，1：允许，0：不允许")
             @RequestParam(required = false, name = "allowDeleted") Integer allowDeleted
+            ,
+            @ApiParam(name = "salt", value = "md5密码盐")
+            @RequestParam(required = false, name = "salt") String salt
+            ,
+            @ApiParam(name = "deptId", value = "部门id")
+            @RequestParam(required = false, name = "deptId") Integer deptId
+            ,
+            @ApiParam(name = "status", value = "状态，1：启用，2：冻结，3：删除")
+            @RequestParam(required = false, name = "status") Integer status
     ) {
-        Manager manager = new Manager(
-
-                name, account, password, createdDate, allowDeleted);
+        Manager manager = new Manager(name, account, password, createdDate, allowDeleted, salt, deptId, status);
         managerService.insertAllColumn(manager);
     }
 
@@ -107,7 +114,7 @@ public class ManagerController {
     public void start(HttpServletResponse response, HttpServletRequest request) {
         try {
             //不知道为什么找不到跳转回一直循环
-            response.sendRedirect( "/buliding/swagger-ui.html#/");
+            response.sendRedirect("/buliding/swagger-ui.html#/");
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -26,7 +26,7 @@ import com.dnp.bulidingmanage.common.page.PageVo;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "PolicyController", description = "进出大楼要开关的一些功能策略")
+@Api(value = "Policy", description = "进出大楼要开关的一些功能策略")
 @RestController
 @RequestMapping(value = "/policy", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class PolicyController {

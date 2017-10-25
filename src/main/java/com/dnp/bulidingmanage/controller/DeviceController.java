@@ -26,7 +26,7 @@ import com.dnp.bulidingmanage.common.page.PageVo;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "DeviceController", description = "手机的一些信息")
+@Api(value = "Device", description = "手机的一些信息")
 @RestController
 @RequestMapping(value = "/device", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class DeviceController {

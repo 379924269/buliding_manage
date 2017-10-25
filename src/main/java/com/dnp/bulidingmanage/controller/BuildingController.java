@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.*;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "BuildingController", description = "大楼信息")
+@Api(value = "Building", description = "大楼信息")
 @RestController
 @RequestMapping(value = "/building", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-@ApiResponses(value = { @ApiResponse(code = 1000, message = "没有登陆", response = ResponseJsonVo.class) })
+@ApiResponses(value = {@ApiResponse(code = 1000, message = "没有登陆", response = ResponseJsonVo.class)})
 public class BuildingController {
     @Autowired
     private BuildingService buildingService;
@@ -38,7 +38,7 @@ public class BuildingController {
     @RequestMapping(value = "/findAllRelation", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有关联信息", notes = "查询所有关联信息", response = BuilidingRelationPageResult.class)
     public Object findAllRelation(PageVo pageVo,
-                          @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
+                                  @ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search) {
         LogUtil.info(this, "==========findAll=============");
         return buildingService.findAllRelation(pageVo, search);
     }
@@ -73,7 +73,7 @@ public class BuildingController {
     @ApiOperation(value = "删除", notes = "修改")
     public void delete(@ApiParam(name = "id", value = "id", required = true) @PathVariable("id") Integer id) {
         buildingService.deleteById(id);
-        
+
     }
 
 }

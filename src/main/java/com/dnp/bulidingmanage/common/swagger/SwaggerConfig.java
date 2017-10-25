@@ -34,11 +34,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("buddingManage" )
-                .description("buddingManage Api文档" )
-                .termsOfServiceUrl("http://git.oschina.net/naan1993/guns" )
-                .contact("华仔" )
-                .version("2.0" )
+                .title("buddingManage")
+                .description("buddingManage Api文档")
+                .termsOfServiceUrl("http://git.oschina.net/naan1993/guns")
+                .contact("华仔")
+                .version("2.0")
                 .build();
     }
 

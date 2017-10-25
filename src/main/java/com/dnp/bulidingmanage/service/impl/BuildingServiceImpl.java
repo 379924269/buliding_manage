@@ -44,7 +44,7 @@ public class BuildingServiceImpl extends ServiceImpl<BuildingMapper, Building> i
         if (StringUtils.isNotEmpty(search)) {
             entityWrapper.like("name", search);
         }
-        Page page = new Page(pageVo.getOffset()/pageVo.getLimit(), pageVo.getLimit());
+        Page page = new Page(pageVo.getOffset() / pageVo.getLimit(), pageVo.getLimit());
         List<Building> list = buildingMapper.selectPage(page, entityWrapper);
         int total = buildingMapper.selectCount(entityWrapper);
         return ResponseUtil.responsePage(total, list);

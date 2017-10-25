@@ -36,9 +36,9 @@ import java.util.Date;
  * @author ${author}
  * @since ${date}
  */
-@Api(value = "${table.controllerName}" , description = "${table.comment}")
+@Api(value = "${table.controllerName}", description = "${table.comment}")
 @RestController
-@RequestMapping(value = "#if(${package.ModuleName})/${package.ModuleName}#end/${table.entityPath}" , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "#if(${package.ModuleName})/${package.ModuleName}#end/${table.entityPath}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 #if(${superControllerClass})
 public class ${table.controllerName} extends ${superControllerClass} {
 #else
@@ -47,28 +47,28 @@ public class ${table.controllerName} {
 @Autowired private ${table.serviceName} ${table.entityPath}Service;
 
 ##${table.entityPath} 表字段的小写
-@RequestMapping(value = "" , method = RequestMethod.GET)
-@ApiOperation(value = "查询所有${table.comment}" , notes = "查询所有${table.comment}")
+@RequestMapping(value = "", method = RequestMethod.GET)
+@ApiOperation(value = "查询所有${table.comment}", notes = "查询所有${table.comment}")
 public Object findAll(PageVo pageVo,
-@ApiParam(name = "search" , value = "模糊查询字段" , required = false) @RequestParam(required = false, defaultValue = "") String search){
+@ApiParam(name = "search", value = "模糊查询字段", required = false) @RequestParam(required = false, defaultValue = "") String search){
         return null;
         }
 
 
-@RequestMapping(value = "/{id}" , method = RequestMethod.GET)
-@ApiOperation(value = "查询${table.comment}详情" , notes = "查询${table.comment}详情" , httpMethod = "GET")
-public ${entity} findById(@ApiParam(name = "id" , value = "${table.comment}id" , required = true) @PathVariable("id") Integer id){
+@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+@ApiOperation(value = "查询${table.comment}详情", notes = "查询${table.comment}详情", httpMethod = "GET")
+public ${entity} findById(@ApiParam(name = "id", value = "${table.comment}id", required = true) @PathVariable("id") Integer id){
         return ${table.entityPath}Service.selectById(id);
         }
 
-@RequestMapping(value = "/{id}" , method = RequestMethod.PUT)
-@ApiOperation(value = "修改${table.comment}" , notes = "修改${table.comment}")
+@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+@ApiOperation(value = "修改${table.comment}", notes = "修改${table.comment}")
 public void update(${entity} ${table.entityPath}){
     ${table.entityPath}Service.updateAllColumnById(${table.entityPath});
         }
 
-@RequestMapping(value = "" , method = RequestMethod.POST)
-@ApiOperation(value = "添加${table.comment}" , notes = "添加${table.comment}")
+@RequestMapping(value = "", method = RequestMethod.POST)
+@ApiOperation(value = "添加${table.comment}", notes = "添加${table.comment}")
 public void save(
 #foreach($field in ${table.fields})
     #set($lastField= ${field.propertyName})
@@ -76,7 +76,7 @@ public void save(
 
 #foreach($field in ${table.fields})
     #if( ${field.propertyName.equals("id")})
-    #else @ApiParam(name = "${field.propertyName}" , value = "${field.comment}")
+    #else @ApiParam(name = "${field.propertyName}", value = "${field.comment}")
     @RequestParam(required = false, name = "${field.propertyName}") ${field.propertyType} ${field.propertyName}
         #if(${lastField} != ${field.propertyName})
                 ,
@@ -96,9 +96,9 @@ ${entity} ${table.entityPath} =new ${entity}(
 ${table.entityPath}Service.insertAllColumn(${table.entityPath});
         }
 
-@RequestMapping(value = "/{id}" , method = RequestMethod.DELETE)
-@ApiOperation(value = "删除${table.comment}" , notes = "修改${table.comment}")
-public void delete(@ApiParam(name = "id" , value = "${table.comment}id" , required = true) @PathVariable("id") Integer id){
+@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+@ApiOperation(value = "删除${table.comment}", notes = "修改${table.comment}")
+public void delete(@ApiParam(name = "id", value = "${table.comment}id", required = true) @PathVariable("id") Integer id){
     ${table.entityPath}Service.deleteById(id);
         }
 

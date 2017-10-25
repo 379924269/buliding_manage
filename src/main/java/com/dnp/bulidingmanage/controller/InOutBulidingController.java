@@ -26,7 +26,7 @@ import com.dnp.bulidingmanage.common.page.PageVo;
  * @author stylefeng
  * @since 2017-10-11
  */
-@Api(value = "InOutBulidingController", description = "记录手机进出大楼的一些信息")
+@Api(value = "InOutBuliding", description = "记录手机进出大楼的一些信息")
 @RestController
 @RequestMapping(value = "/inOutBuliding", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class InOutBulidingController {
