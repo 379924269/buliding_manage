@@ -3,7 +3,7 @@
 # Server version:               5.1.28-rc-community
 # Server OS:                    Win32
 # HeidiSQL version:             6.0.0.3603
-# Date/time:                    2017-10-25 14:59:33
+# Date/time:                    2017-10-26 16:37:27
 # --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,10 @@ CREATE TABLE IF NOT EXISTS `building` (
   CONSTRAINT `FK_policy_id` FOREIGN KEY (`policy_id`) REFERENCES `policy` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='大楼信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.building: ~0 rows (approximately)
+DELETE FROM `building`;
+/*!40000 ALTER TABLE `building` DISABLE KEYS */;
+/*!40000 ALTER TABLE `building` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.dept
@@ -40,9 +43,14 @@ CREATE TABLE IF NOT EXISTS `dept` (
   `number` varchar(100) NOT NULL COMMENT '部门编号',
   `parent_id` int(11) NOT NULL COMMENT '父部门ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门信息';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='部门信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.dept: ~1 rows (approximately)
+DELETE FROM `dept`;
+/*!40000 ALTER TABLE `dept` DISABLE KEYS */;
+INSERT INTO `dept` (`id`, `name`, `number`, `parent_id`) VALUES
+	(1, '总部', '001', 0);
+/*!40000 ALTER TABLE `dept` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.device
@@ -59,7 +67,10 @@ CREATE TABLE IF NOT EXISTS `device` (
   CONSTRAINT `FK_location_id` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='手机的一些信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.device: ~0 rows (approximately)
+DELETE FROM `device`;
+/*!40000 ALTER TABLE `device` DISABLE KEYS */;
+/*!40000 ALTER TABLE `device` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.in_out_buliding
@@ -78,7 +89,10 @@ CREATE TABLE IF NOT EXISTS `in_out_buliding` (
   CONSTRAINT `FK_device_id` FOREIGN KEY (`device_id`) REFERENCES `device` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='记录手机进出大楼的一些信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.in_out_buliding: ~0 rows (approximately)
+DELETE FROM `in_out_buliding`;
+/*!40000 ALTER TABLE `in_out_buliding` DISABLE KEYS */;
+/*!40000 ALTER TABLE `in_out_buliding` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.location
@@ -90,7 +104,10 @@ CREATE TABLE IF NOT EXISTS `location` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='归属地信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.location: ~0 rows (approximately)
+DELETE FROM `location`;
+/*!40000 ALTER TABLE `location` DISABLE KEYS */;
+/*!40000 ALTER TABLE `location` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.manager
@@ -108,9 +125,14 @@ CREATE TABLE IF NOT EXISTS `manager` (
   PRIMARY KEY (`id`),
   KEY `FK_manager_dept` (`dept_id`),
   CONSTRAINT `FK_manager_dept` FOREIGN KEY (`dept_id`) REFERENCES `dept` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.manager: ~1 rows (approximately)
+DELETE FROM `manager`;
+/*!40000 ALTER TABLE `manager` DISABLE KEYS */;
+INSERT INTO `manager` (`id`, `name`, `account`, `password`, `created_date`, `allow_deleted`, `salt`, `dept_id`, `status`) VALUES
+	(1, 'test1', 'test1', '123456', 1111111, 0, '212', 1, 1);
+/*!40000 ALTER TABLE `manager` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.manager_role
@@ -122,23 +144,34 @@ CREATE TABLE IF NOT EXISTS `manager_role` (
   PRIMARY KEY (`id`),
   KEY `FK_manager_role_role` (`role_id`),
   KEY `FK_manager_role_manager` (`manager_id`),
-  CONSTRAINT `FK_manager_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_manager_role_manager` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='管理员和角色关系';
+  CONSTRAINT `FK_manager_role_manager` FOREIGN KEY (`manager_id`) REFERENCES `manager` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_manager_role_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='管理员和角色关系';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.manager_role: ~1 rows (approximately)
+DELETE FROM `manager_role`;
+/*!40000 ALTER TABLE `manager_role` DISABLE KEYS */;
+INSERT INTO `manager_role` (`id`, `manager_id`, `role_id`) VALUES
+	(1, 1, 1);
+/*!40000 ALTER TABLE `manager_role` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.permission
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE IF NOT EXISTS `permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `url` varchar(256) NOT NULL COMMENT 'url地址',
   `name` varchar(64) NOT NULL COMMENT 'url描述',
+  `parent_id` int(11) NOT NULL COMMENT '父节点id',
+  `per_url` varchar(256) DEFAULT NULL COMMENT '请求地址',
+  `per_key` varchar(256) DEFAULT NULL COMMENT '权限key',
+  `type` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限信息';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.permission: ~0 rows (approximately)
+DELETE FROM `permission`;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.policy
@@ -150,7 +183,10 @@ CREATE TABLE IF NOT EXISTS `policy` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='进出大楼要开关的一些功能策略';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.policy: ~0 rows (approximately)
+DELETE FROM `policy`;
+/*!40000 ALTER TABLE `policy` DISABLE KEYS */;
+/*!40000 ALTER TABLE `policy` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.role
@@ -160,9 +196,14 @@ CREATE TABLE IF NOT EXISTS `role` (
   `name` varchar(100) NOT NULL COMMENT '角色名称',
   `allow_delete` int(1) NOT NULL DEFAULT '0' COMMENT '允许删除，0：不能删除，1：可以删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='角色';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.role: ~1 rows (approximately)
+DELETE FROM `role`;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` (`id`, `name`, `allow_delete`) VALUES
+	(1, '超级管理员', 0);
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
 
 
 # Dumping structure for table buliding_manage.role_permission
@@ -178,7 +219,10 @@ CREATE TABLE IF NOT EXISTS `role_permission` (
   CONSTRAINT `FK_role_permission_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限关系表';
 
-# Data exporting was unselected.
+# Dumping data for table buliding_manage.role_permission: ~0 rows (approximately)
+DELETE FROM `role_permission`;
+/*!40000 ALTER TABLE `role_permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `role_permission` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

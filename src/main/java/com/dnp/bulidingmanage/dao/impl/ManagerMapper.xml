@@ -15,4 +15,8 @@
         <result column="status" property="status"/>
     </resultMap>
 
+    <select id="selectRoleIds" resultType="map">
+        SELECT mr.role_id AS roleId FROM manager_role mr LEFT JOIN manager m ON mr.manager_id = m.id WHERE m.account = #{account}
+    </select>
+
 </mapper>

@@ -2,11 +2,19 @@ package
 
         com.dnp.bulidingmanage.controller;
 
+import com.dnp.bulidingmanage.common.LogUtil;
 import com.dnp.bulidingmanage.vo.ResponseJsonVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -98,15 +106,44 @@ public class ManagerController {
 
     @RequestMapping(value = "/manager/notLogin")
     @ApiOperation(value = "没有登录", notes = "没有登录", hidden = true)
-    public Object notLogin() {
-        return new ResponseJsonVo(1000, false, "没有登陆");
+    public Object notLogin(HttpServletResponse response) {
+        //return new ResponseJsonVo(1000, false, "没有登陆");
+        LogUtil.info(this, "没有登陆");
+        return  new ResponseJsonVo(200, true, "没有登陆");
     }
 
     @RequestMapping(value = "/manager/login", method = RequestMethod.POST)
     @ApiOperation(value = "登录", notes = "登录")
-    public Object login(HttpServletRequest request) {
-        request.getSession().setAttribute("userId", "1");
-        return new JSONObject().put("msg", "登录成功！").toString();
+    public Object login(HttpServletResponse response, @ApiParam(name = "userName", value = "用户名称", required = true, defaultValue = "test1") @RequestParam String userName, @ApiParam(name = "password", value = "用户密码",
+            defaultValue = "123456") @RequestParam String password) {
+        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
+            response.setStatus(1001);
+            return new ResponseJsonVo(1001, false, "用户名或密码不能为空");
+        }
+
+        Subject manager = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+        try {
+            manager.login(token);
+        } catch (LockedAccountException lae) {
+            token.clear();
+            response.setStatus(2004);
+            return new ResponseJsonVo(2004, false, "用户已经被锁定不能登录,请与管理员联系！");
+        } catch (ExcessiveAttemptsException e) {
+            token.clear();
+            response.setStatus(2005);
+            return new ResponseJsonVo(2005, false, "登录失败次数过多,锁定10分钟!");
+        } catch (AuthenticationException e) {
+            token.clear();
+            response.setStatus(2006);
+            return new ResponseJsonVo(2005, false, "用户或密码不正确！");
+
+        }
+
+        LogUtil.info(this, "登录成功");
+
+        //request.getSession().setAttribute("userId", "1");
+        return new ResponseJsonVo(200, true, "登陆成功");
     }
 
     @RequestMapping(value = "/")
