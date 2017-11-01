@@ -1,5 +1,7 @@
 package com.dnp.bulidingmanage.common.config;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.dnp.bulidingmanage.model.Permission;
 import com.dnp.bulidingmanage.service.PermissionService;
 import com.dnp.bulidingmanage.shiro.MyShiroRealm;
 import com.dnp.bulidingmanage.shiro.filter.KickoutSessionControlFilter;
@@ -19,6 +21,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -51,7 +54,7 @@ public class ShiroConfig {
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/manager/login");
         // 未授权界面;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/manager/notLogin");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/manager/noPermission");
 
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
@@ -75,6 +78,13 @@ public class ShiroConfig {
         //	filterMap.put(sysPermissionInit.getUrl(),
         //			sysPermissionInit.getPermissionInit());
         //}
+
+        //自动加载的权限
+        List<Permission> permissionAllList = permissionService.selectList(new EntityWrapper<Permission>());
+        for (Permission permission : permissionAllList) {
+            filterMap.put(permission.getPerUrl(), "perms[" + permission.getPerKey() + "]");
+        }
+
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/api/**", "anon");
 
@@ -84,7 +94,10 @@ public class ShiroConfig {
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-        filterMap.put("/favicon.ico", "anon");
+        filterMap.put("/swagger-resources/**", "anon");
+        filterMap.put("/buliding/", "anon");
+        filterMap.put("/buliding/v2/api-docs/", "anon");
+        filterMap.put("/swagger-resources/configuration/ui", "anon");
 
         filterMap.put("/**", "authc, kickout");
         shiroFilterFactoryBean
@@ -134,7 +147,7 @@ public class ShiroConfig {
     public RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher() {
         RetryLimitHashedCredentialsMatcher retryLimitHashedCredentialsMatcher = new RetryLimitHashedCredentialsMatcher(ehCacheManager());
         retryLimitHashedCredentialsMatcher.setHashAlgorithmName("md5");
-        retryLimitHashedCredentialsMatcher.setHashIterations(0);
+        retryLimitHashedCredentialsMatcher.setHashIterations(1);
         retryLimitHashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
         return retryLimitHashedCredentialsMatcher;
     }

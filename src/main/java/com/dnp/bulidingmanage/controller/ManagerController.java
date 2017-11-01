@@ -109,7 +109,16 @@ public class ManagerController {
     public Object notLogin(HttpServletResponse response) {
         //return new ResponseJsonVo(1000, false, "没有登陆");
         LogUtil.info(this, "没有登陆");
-        return  new ResponseJsonVo(200, true, "没有登陆");
+        return  new ResponseJsonVo(200, false, "没有登陆");
+    }
+
+    @RequestMapping(value = "/manager/noPermission")
+    @ApiOperation(value = "没有权限", notes = "没有权限", hidden = true)
+    public Object noPermission(HttpServletResponse response) {
+        //return new ResponseJsonVo(1000, false, "没有登陆");
+        LogUtil.info(this, "没有登陆");
+        response.setStatus(403);
+        return  new ResponseJsonVo(403, false, "没有权限");
     }
 
     @RequestMapping(value = "/manager/login", method = RequestMethod.POST)

@@ -16,10 +16,10 @@ import java.util.List;
 public interface PermissionService extends IService<Permission> {
 
     /**
-     * 通过管理员登录名称获取管理员权限
+     * 通过管理员登录名称获取管理员拥有的所有权限
      *
-     * @param managerName 一个或多个角色id
-     * @return List<Permission> 权限集合
+     * @param managerName 管理员名称
+     * @return List<Permission> 权限集合,没有返回new Arraylist()
      */
     List<Permission> findPermission(String managerName);
 }
