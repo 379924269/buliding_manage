@@ -99,7 +99,7 @@ public class MyShiroRealm extends AuthorizingRealm {
      * 清除用户信息缓存.
      */
     public void clearAllCachedAuthenticationInfo() {
-        getAuthenticationCache().clear();
+        //getAuthenticationCache().clear();
     }
 
     /**

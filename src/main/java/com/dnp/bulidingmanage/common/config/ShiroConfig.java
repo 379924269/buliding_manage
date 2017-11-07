@@ -50,11 +50,11 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        shiroFilterFactoryBean.setLoginUrl("/manager/notLogin");
+        shiroFilterFactoryBean.setLoginUrl("/login/notLogin");
         // 登录成功后要跳转的链接
-        shiroFilterFactoryBean.setSuccessUrl("/manager/login");
+        shiroFilterFactoryBean.setSuccessUrl("/login/login");
         // 未授权界面;
-        shiroFilterFactoryBean.setUnauthorizedUrl("/manager/noPermission");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/login/noPermission");
 
         //自定义拦截器
         Map<String, Filter> filtersMap = new LinkedHashMap<>();
@@ -88,16 +88,12 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/api/**", "anon");
 
-        filterMap.put("/manager/login", "anon");
-        filterMap.put("/manager/notLogin", "anon");
+        filterMap.put("/login/login", "anon");
+        filterMap.put("/login/notLogin", "anon");
         filterMap.put("/", "anon");
         filterMap.put("/v2/api-docs", "anon");
         filterMap.put("/swagger-ui.html", "anon");
         filterMap.put("/swagger-resources/**", "anon");
-        filterMap.put("/swagger-resources/**", "anon");
-        filterMap.put("/buliding/", "anon");
-        filterMap.put("/buliding/v2/api-docs/", "anon");
-        filterMap.put("/swagger-resources/configuration/ui", "anon");
 
         filterMap.put("/**", "authc, kickout");
         shiroFilterFactoryBean
