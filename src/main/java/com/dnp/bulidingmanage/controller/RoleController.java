@@ -1,5 +1,7 @@
 package com.dnp.bulidingmanage.controller;
 
+import com.dnp.bulidingmanage.model.RolePermission;
+import com.dnp.bulidingmanage.service.RolePermissionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -30,6 +32,9 @@ import com.dnp.bulidingmanage.common.page.PageVo;
 public class RoleController {
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private RolePermissionService rolePermissionService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ApiOperation(value = "查询所有角色", notes = "查询所有角色")
@@ -70,4 +75,28 @@ public class RoleController {
         roleService.deleteById(id);
     }
 
+
+    @RequestMapping(value = "/addRolePermission", method = RequestMethod.POST)
+    @ApiOperation(value = "添加角色权限", notes = "添加角色权限")
+    public void addRolePermission(
+            @ApiParam(name = "roleId", value = "角色Id")
+            @RequestParam(required = false, name = "roleId") Integer roleId
+            ,
+            @ApiParam(name = "permissionId", value = "权限id")
+            @RequestParam(required = false, name = "permissionId") Integer permissionId
+    ) {
+        rolePermissionService.insertRolePermission(new RolePermission(roleId, permissionId));
+    }
+
+    @RequestMapping(value = "/deleteRolePermission", method = RequestMethod.DELETE)
+    @ApiOperation(value = "删除角色权限", notes = "删除角色权限")
+    public void deleteRolePermission(
+            @ApiParam(name = "roleId", value = "角色Id")
+            @RequestParam(required = false, name = "roleId") Integer roleId
+            ,
+            @ApiParam(name = "permissionId", value = "权限id")
+            @RequestParam(required = false, name = "permissionId") Integer permissionId
+    ) {
+        rolePermissionService.deleteRolePermission(roleId, permissionId);
+    }
 }

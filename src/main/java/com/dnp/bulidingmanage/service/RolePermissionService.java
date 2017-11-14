@@ -12,5 +12,6 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2017-10-25
  */
 public interface RolePermissionService extends IService<RolePermission> {
-
+    void  insertRolePermission(RolePermission rolePermission);
+    void  deleteRolePermission(int roleId, int permissionId);
 }

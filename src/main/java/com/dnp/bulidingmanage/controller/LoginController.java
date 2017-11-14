@@ -1,13 +1,8 @@
-package
-
-        com.dnp.bulidingmanage.controller;
+package com.dnp.bulidingmanage.controller;
 
 import com.dnp.bulidingmanage.common.LogUtil;
 import com.dnp.bulidingmanage.vo.ResponseJsonVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import org.apache.commons.lang.StringUtils;
+import io.swagger.annotations.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -40,27 +35,25 @@ public class LoginController {
     public Object notLogin() {
         //return new ResponseJsonVo(1000, false, "没有登陆");
         LogUtil.info(this, "没有登陆");
-        return  new ResponseJsonVo(200, false, "没有登陆");
+        return new ResponseJsonVo(200, false, "没有登陆");
     }
 
     @RequestMapping(value = "/login/noPermission")
     @ApiOperation(value = "没有权限", notes = "没有权限", hidden = true)
     public Object noPermission(HttpServletResponse response) {
         //return new ResponseJsonVo(1000, false, "没有登陆");
-        LogUtil.info(this, "没有登陆");
+        LogUtil.info(this, "没有权限");
         response.setStatus(403);
-        return  new ResponseJsonVo(403, false, "没有权限");
+        return new ResponseJsonVo(403, false, "没有权限");
     }
 
     @RequestMapping(value = "login/login", method = RequestMethod.POST)
     @ApiOperation(value = "登录", notes = "登录")
+    @ApiResponses({@ApiResponse(code = 2004, message = "用户已经被锁定不能登录,请与管理员联系!"),
+            @ApiResponse(code = 2005, message = "登录失败次数过多,锁定10分钟!"),
+            @ApiResponse(code = 2005, message = "用户或密码不正确！")})
     public Object login(HttpServletResponse response, @ApiParam(name = "userName", value = "用户名称", required = true, defaultValue = "test1") @RequestParam String userName, @ApiParam(name = "password", value = "用户密码",
-            defaultValue = "123456") @RequestParam String password) {
-        if (StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)) {
-            response.setStatus(1001);
-            return new ResponseJsonVo(1001, false, "用户名或密码不能为空");
-        }
-
+            defaultValue = "123456", required = true) @RequestParam String password) {
         Subject manager = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         try {
@@ -76,7 +69,7 @@ public class LoginController {
         } catch (AuthenticationException e) {
             token.clear();
             response.setStatus(2006);
-            return new ResponseJsonVo(2005, false, "用户或密码不正确！");
+            return new ResponseJsonVo(2006, false, "用户或密码不正确！");
 
         }
 
@@ -90,7 +83,13 @@ public class LoginController {
     @ApiOperation(value = "退出", notes = "退出", hidden = true, response = ResponseJsonVo.class)
     public Object loginOut() {
         SecurityUtils.getSubject().logout();
-        return  new ResponseJsonVo(200, true, "退出成功");
+        return new ResponseJsonVo(200, true, "退出成功");
+    }
+
+    @RequestMapping(value = "/login/kickout")
+    @ApiOperation(value = "并发用户登录踢出", notes = "并发用户登录踢出", hidden = true, response = ResponseJsonVo.class)
+    public Object kickout() {
+        return new ResponseJsonVo(666, false, "其他用户登录该账号，已经被强制踢出");
     }
 
     @RequestMapping(value = "/")
